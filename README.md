@@ -1,12 +1,10 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Three.js Boiler Template
+# Three.js Scroll and RayCasting
 
-> This is a basic boilerplate for anyone who starts to work with three.js. The boilerplate contains all the necessary three.js components to help you get started. The repo includes already setup linters for anyone to get started. Big shoutout to [Microverse](https://www.microverse.org/) for providing the linters configurations. In order to see the results that your repo is marked check, push your code for github actions to run your checks.
+> This carries two very basic yet important concepts of threejs. One is scroll and other is raycasting.
 
 ![screenshot](./screenshot.png)
-
-The boiler plate includes:
 
 - Camera
 - Geometry
@@ -25,13 +23,13 @@ The boiler plate includes:
 
 ## Live Demo
 
-[Live Demo Link](https://three-js-boilerplate.vercel.app/)
+[Live Demo Link](https://scroll-threejs.vercel.app)
 
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps:
 
-### Setup
+### Setupv
 
 Download [Node.js](https://nodejs.org/en/download/).
 
@@ -75,7 +73,7 @@ npx eslint .
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/uzairali19/three-js-boilerplate/issues/).
+Feel free to check the [issues page](https://github.com/uzairali19/scroll-threejs/issues/).
 
 ## Show your support
 
