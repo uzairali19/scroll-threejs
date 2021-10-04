@@ -3,5 +3,4 @@ module.exports = {
   build: {
     outDir: "dist",
   },
-  publicDir: "images",
 };

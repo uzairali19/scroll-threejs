@@ -33,7 +33,7 @@ const planeGeometry = new THREE.PlaneBufferGeometry(1, 1.3);
 
 for (let i = 0; i < 3; i += 1) {
   const planeMaterial = new THREE.MeshBasicMaterial({
-    map: textureLoader.load(`./images/${i}.jpg`),
+    map: textureLoader.load(`/images/${i}.jpg`),
   });
 
   const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
