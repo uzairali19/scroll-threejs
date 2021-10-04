@@ -1,8 +1,11 @@
 import "./style.css";
 import * as THREE from "three";
-import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
+import gsap from "gsap";
+
+/* Debug with GUI */
+
+// const gui = new dat.GUI();
 
 /* Scene */
 const scene = new THREE.Scene();
@@ -15,10 +18,8 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 camera.position.z = 3;
-
-/* Debug with GUI */
-
-const gui = new dat.GUI();
+camera.position.y = 0;
+camera.position.x = 0;
 
 /* Background */
 
@@ -37,7 +38,16 @@ for (let i = 0; i < 3; i += 1) {
 
   const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
   scene.add(planeMesh);
+  planeMesh.position.set(3, i * -1.8);
 }
+
+const objects = [];
+
+scene.traverse((object) => {
+  if (object.isMesh) {
+    objects.push(object);
+  }
+});
 
 /* Materials */
 
@@ -54,23 +64,57 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 renderer.render(scene, camera);
 
-/* Orbit Controls */
-const controls = new OrbitControls(camera, renderer.domElement);
+/* Mouse */
 
-/* Grid Helper */
-const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(gridHelper);
+let y = 0;
+let position = 0;
+function onMouseWheel(event) {
+  y = event.deltaY * 0.0007;
+}
+
+window.addEventListener("wheel", onMouseWheel);
+
+/* Raycaster */
+
+const rayCaster = new THREE.Raycaster();
+
+const mouse = {
+  x: undefined,
+  y: undefined,
+};
+
+window.addEventListener("mousemove", (event) => {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+});
 
 /* Animation Function */
 
 function animate() {
   requestAnimationFrame(animate);
 
+  // Raycaster
+  rayCaster.setFromCamera(mouse, camera);
+  const intersects = rayCaster.intersectObjects(objects);
+
+  intersects.forEach((intersect) => {
+    gsap.to(intersect.object.scale, { x: 1.7, y: 1.7 });
+    gsap.to(intersect.object.rotation, { y: -0.7 });
+    gsap.to(intersect.object.position, { z: -0.9 });
+  });
+
+  objects.forEach((object) => {
+    if (!intersects.find((intersect) => intersect.object === object)) {
+      gsap.to(object.scale, { x: 1, y: 1 });
+      gsap.to(object.rotation, { y: 0 });
+      gsap.to(object.position, { z: 0 });
+    }
+  });
   // Objects animation
 
-  // Orbit Controls
-  controls.update();
-
+  position += y;
+  y *= 0.9;
+  camera.position.y = -position;
   // Renderer
   renderer.render(scene, camera);
 }
